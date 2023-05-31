@@ -1,0 +1,118 @@
+{
+    "data": [
+      {
+        "id": 1,
+        "title": "Book 1",
+        "description": "Description of Book 1",
+        "isbn": "ISBN1",
+        "authors": [
+          {
+            "name": "Author 1"
+          }
+        ],
+        "category": "Category 1",
+        "publishedDate": "2023-05-01",
+        "publisher": "Publisher 1",
+        "cover": "cover1.jpg",
+        "copies": []
+      },
+      {
+        "id": 2,
+        "title": "Book 2",
+        "description": "Description of Book 2",
+        "isbn": "ISBN2",
+        "authors": [
+          {
+            "name": "Author 2"
+          }
+        ],
+        "category": "Category 2",
+        "publishedDate": "2023-05-02",
+        "publisher": "Publisher 2",
+        "cover": "cover2.jpg",
+        "copies": []
+      },
+      {
+        "id": 3,
+        "title": "Book 3",
+        "description": "Description of Book 3",
+        "isbn": "ISBN3",
+        "authors": [
+          {
+            "name": "Author 3"
+          }
+        ],
+        "category": "Category 3",
+        "publishedDate": "2023-05-03",
+        "publisher": "Publisher 3",
+        "cover": "cover3.jpg",
+        "copies": []
+      },
+      {
+        "id": 4,
+        "title": "Book 4",
+        "description": "Description of Book 4",
+        "isbn": "ISBN4",
+        "authors": [
+          {
+            "name": "Author 4"
+          }
+        ],
+        "category": "Category 4",
+        "publishedDate": "2023-05-04",
+        "publisher": "Publisher 4",
+        "cover": "cover4.jpg",
+        "copies": []
+      },
+      {
+        "id": 5,
+        "title": "Book 5",
+        "description": "Description of Book 5",
+        "isbn": "ISBN5",
+        "authors": [
+          {
+            "name": "Author 5"
+          }
+        ],
+        "category": "Category 5",
+        "publishedDate": "2023-05-05",
+        "publisher": "Publisher 5",
+        "cover": "cover5.jpg",
+        "copies": []
+      },
+      {
+        "id": 6,
+        "title": "Book 6",
+        "description": "Description of Book 6",
+        "isbn": "ISBN6",
+        "authors": [
+          {
+            "name": "Author 6"
+          }
+        ],
+        "category": "Category 6",
+        "publishedDate": "2023-05-06",
+        "publisher": "Publisher 6",
+        "cover": "cover6.jpg",
+        "copies": []
+      },
+      {
+        "id": 7,
+        "title": "Book 7",
+        "description": "Description of Book 7",
+        "isbn": "ISBN7",
+        "authors": [
+          {
+            "name": "Author 7"
+          }
+        ],
+        "category": "Category 7",
+        "publishedDate": "2023-05-07",
+        "publisher": "Publisher 7",
+        "cover": "cover7.jpg",
+        "copies": []
+      }
+      
+    
+    ]
+  }

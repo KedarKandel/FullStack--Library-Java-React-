@@ -1,0 +1,35 @@
+.admin__book__item{
+    display: flex;
+    padding: 5px;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px dotted grey;
+    padding: 5px;
+    margin: 2px;
+    h2{
+        
+    }
+    p{
+        
+        font-size: 18px;
+        small{
+            color: purple;
+        }
+    }
+    button{
+        border: none;
+        outline: none;
+        color: white;
+        padding: 5px 6px;
+        width: max-content;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: inset 3px;
+    }
+    .update{
+        background-color: purple;
+    }
+    .delete{
+        background-color: rgb(209, 19, 19);
+    }
+}
