@@ -3,12 +3,10 @@ import api from '../api/api' // assuming you have an API module for making reque
 
 import {
   Book,
-  BookReq,
-  BookRes,
   BookState,
   FilterTermPayload,
   SearchTermPayload
-} from '../interfaces/interface' // import the necessary interfaces
+} from '../interfaces/interface'
 
 // fetch all books
 export const fetchAllBooks = createAsyncThunk('books/fetch', async () => {
@@ -35,7 +33,7 @@ export const deleteBook = createAsyncThunk(
         return { deletedId }
       } else {
         // Book deletion failed or other error occurred
-        return rejectWithValue("Book deletion failed")
+        return rejectWithValue('Book deletion failed')
       }
     } catch (error: any) {
       // Error occurred during the API request
@@ -46,35 +44,65 @@ export const deleteBook = createAsyncThunk(
 
 // add a book
 
-export const addBook = createAsyncThunk('books/add', async (addedObject: BookReq) => {
-  try {
-    const res = await api.post(`/book/add`, {
-      title: addedObject.title,
-      description: addedObject.description,
-      isbn: addedObject.isbn,
-      authorId: addedObject.authorId,
-      categoryId: addedObject.categoryId,
-      publishedDate: addedObject.publishedDate,
-      publisher: addedObject.publisher,
-      cover: addedObject.cover
-    })
-    const book: BookRes = await res.data
-    console.log(book)
-    return {
-      book
+export const addBook = createAsyncThunk(
+  'books/add',
+  async (addedObject: Book, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`/book/add`, {
+        title: addedObject.title,
+        description: addedObject.description,
+        isbn: addedObject.isbn,
+        authorId: addedObject.author.id,
+        categoryId: addedObject.category.id,
+        publishedDate: addedObject.publishedDate,
+        publisher: addedObject.publisher,
+        cover: addedObject.cover
+      })
+      const book: Book = await res.data
+      return {
+        book
+      }
+    } catch (error: any) {
+      console.log(error)
+      return rejectWithValue(error.message) 
     }
-  } catch (error: any) {
-    console.log('Error:> ', error.message)
-    throw error
   }
-})
+)
+
+// update a book
+export const updateBook = createAsyncThunk(
+  'books/update',
+  async (updatedObject: Book, { rejectWithValue }) => {
+    try {
+      const res = await api.put(`/book/update/${updatedObject.id}`, {
+        title: updatedObject.title,
+        isbn: updatedObject.isbn,
+        description: updatedObject.description,
+        authorId: updatedObject.author.id,
+        categoryId: updatedObject.category.id,
+        publishedDate: updatedObject.publishedDate,
+        publisher: updatedObject.publisher,
+        cover: updatedObject.cover
+      })
+      const updatedBook: Book = await res.data
+     
+      return {
+        updatedBook
+      }
+    } catch (error: any) {
+      console.log('Error:> ', error.message)
+      return rejectWithValue(error.message)
+    }
+  }
+)
 
 const initialState: BookState = {
   items: [],
   filteredItems: [],
   isLoading: false,
   error: null,
-  deletedStatus: ""
+  deletedStatus: '',
+  updatedStatus: ''
 }
 
 const bookSlice = createSlice({
@@ -103,9 +131,12 @@ const bookSlice = createSlice({
         })
       }
     },
-    setDeletedStatus: (state, action: PayloadAction<string|null>) => {
-      state.deletedStatus = action.payload;
+    setDeletedStatus: (state, action: PayloadAction<string | null>) => {
+      state.deletedStatus = action.payload
     },
+    setUpdatedStatus: (state, action: PayloadAction<string | null>) => {
+      state.updatedStatus = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -127,11 +158,28 @@ const bookSlice = createSlice({
       const bookId = action.payload.deletedId
       state.items = state.items.filter((book) => book.id !== bookId)
       state.filteredItems = state.filteredItems.filter((book) => book.id !== bookId)
-      state.deletedStatus = 'Book successfully deleted.';
+      state.deletedStatus = 'Book successfully deleted.'
+    })
+    builder.addCase(addBook.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.items.push(action.payload.book) // Add the new book to the state
+      state.filteredItems.push(action.payload.book) // Add the new book to the filtered items
+      state.updatedStatus = 'Book added successfully'
+    })
+
+    builder.addCase(updateBook.fulfilled, (state, action) => {
+      state.isLoading = false
+      const updatedBook = action.payload.updatedBook 
+      const index = state.items.findIndex((book) => book.id === updatedBook.id)
+      if (index !== -1) {
+        state.items[index] = updatedBook // Update the book in the state
+        state.filteredItems[index] = updatedBook // Update the book in the filtered items
+        state.updatedStatus = 'Book updated successfully'
+      }
     })
   }
 })
 
-export const { filterBooks, searchBooks, setDeletedStatus } = bookSlice.actions
+export const { filterBooks, searchBooks, setDeletedStatus, setUpdatedStatus } = bookSlice.actions
 
 export default bookSlice.reducer

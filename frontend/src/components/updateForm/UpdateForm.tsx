@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Book } from '../../interfaces/interface'
 import './updateForm.scss'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../app/store'
 
 type Props = {
   book: Book
@@ -9,15 +11,17 @@ type Props = {
 }
 
 const UpdateForm = ({ book, onUpdateBook, setIsOpen }: Props) => {
-  const [updatedBook, setUpdatedBook] = useState(book)
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
+  const authors = useSelector((state: RootState) => state.author.authors)
+  const categories = useSelector((state: RootState) => state.category.categories)
+  const [updatedBook, setUpdatedBook] = useState<Book>(book)
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
     setUpdatedBook((prevBook) => ({
       ...prevBook,
-      [name]: value
-    }))
-  }
+      [name]: name === "category" || name === "author" ? { id: value } : value
+    }));
+  };
+  
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -67,29 +71,38 @@ const UpdateForm = ({ book, onUpdateBook, setIsOpen }: Props) => {
             required
           />
           <label htmlFor="category">Category</label>
-          <input
-            type="text"
+           <select
             id="category"
             name="category"
-            value={updatedBook.category.name}
+            value={updatedBook.category.id}
             onChange={handleChange}
-            required
-          />
-          <label htmlFor="authors">Authors</label>
-          <input
-            type="text"
-            id="authors"
-            name="authors"
-            value={updatedBook.author.name}
+            required>
+            {categories?.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          <label htmlFor="author">Authors</label>
+          <select
+            id="author"
+            name="author"
+            value={updatedBook.author.id}
             onChange={handleChange}
-            required
-          />
+            required>
+            {authors?.map((author) => (
+              <option key={author.id} value={author.id}>
+                {author.name}
+              </option>
+            ))}
+          </select>
+
           <label htmlFor="publishedDate">Published date</label>
           <input
             type="date"
             id="publishedDate"
-            name="publishDate"
-            value={updatedBook.publishedDate.toString()}
+            name="publishedDate"
+            value={new Date(updatedBook.publishedDate).toISOString().split('T')[0]}
             onChange={handleChange}
             required
           />

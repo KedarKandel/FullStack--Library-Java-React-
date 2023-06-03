@@ -7,7 +7,9 @@ import {
   fetchAllBooks,
   filterBooks,
   searchBooks,
-  setDeletedStatus
+  setDeletedStatus,
+  setUpdatedStatus,
+  updateBook
 } from '../../features/bookSlice'
 import AdminBookItem from '../../components/adminBookItem/AdminBookItem'
 import Search from '../../components/search/Search'
@@ -17,8 +19,10 @@ import AuthorItem from '../../components/author/AuthorItem'
 import TransactionItem from '../../components/transaction/TransactionItem'
 import { fetchAllAuthors } from '../../features/authorSlice'
 import { fetchTransactions } from '../../features/borrowingSlice'
-
+import { fetchAllCategories } from '../../features/categorySlice'
 import './aa.scss'
+
+
 
 const AdminPage = () => {
   const books = useSelector((state: RootState) => state.book.filteredItems)
@@ -31,6 +35,7 @@ const AdminPage = () => {
 
   //show messages for delete, update, ....
   const deletedStatus = useSelector((state: RootState) => state.book.deletedStatus)
+  const updatedStatus = useSelector((state: RootState) => state.book.updatedStatus)
 
   // states
   const [isOpen, setIsOpen] = useState(false)
@@ -49,6 +54,7 @@ const AdminPage = () => {
   useEffect(() => {
     dispatch(fetchAllBooks())
     dispatch(fetchAllAuthors())
+    dispatch(fetchAllCategories())
   }, [dispatch])
 
   // getAll transaction
@@ -80,7 +86,6 @@ const AdminPage = () => {
           }
         })
         .catch((error) => {
-          // Handle error or show error message
           console.log(error)
         })
     }
@@ -91,8 +96,38 @@ const AdminPage = () => {
     setSelectedBook(book)
     setIsOpen(true)
   }
-
-  const handleSubmitUpdateForm = () => {}
+  const handleSubmitUpdateForm = (book: Book) => {
+    if (user && book) {
+      dispatch(updateBook(book))
+      .then((action) => {
+        const updatedId = (action.payload as any).updatedBook.id
+        if (updatedId === selectedBook?.id) {
+          // Book deleted successfully, show success message
+          dispatch(setUpdatedStatus("Book updated successfully"))
+          setTimeout(() => {
+            // Clear the success message after a certain duration (e.g., 3 seconds)
+            dispatch(setUpdatedStatus(''))
+          }, 3000)
+        } else {
+          // Book deletion failed or other error occurred
+          dispatch(setUpdatedStatus('Book update failed'))
+          setTimeout(() => {
+            // Clear the success message after a certain duration (e.g., 3 seconds)
+            dispatch(setUpdatedStatus(''))
+          }, 3000)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  
+      setSelectedBook(null);
+      setIsOpen(false);
+    }
+  };
+  
+  
+  
 
   return (
     <div className="adminpage__container">
@@ -122,12 +157,12 @@ const AdminPage = () => {
         </div>
 
         {deletedStatus && <p style={{ color: 'crimson' }}>{deletedStatus}</p>}
+        {updatedStatus && <p style={{ color: 'crimson' }}>{updatedStatus}</p>}
 
         <div className="item__container">
           {showTransactions ? (
-            <div className='transactionContainer'>
-              
-              <h3 style={{alignSelf:"center"}}>Transactions</h3>
+            <div className="transactionContainer">
+              <h3 style={{ alignSelf: 'center' }}>Transactions</h3>
               <table>
                 <thead>
                   <tr>
@@ -152,7 +187,7 @@ const AdminPage = () => {
               </button>
             </div>
           ) : (
-            <div className='adminBookContainer'>
+            <div className="adminBookContainer">
               {books && books.length > 0 ? (
                 books?.map((book: Book) => {
                   // Get the available copies of the book

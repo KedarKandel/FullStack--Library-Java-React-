@@ -58,6 +58,7 @@ export type BookState = {
   isLoading: boolean
   error: string | null
   deletedStatus: string|null
+  updatedStatus: string|null
 }
 
 export interface BorrowingState {
