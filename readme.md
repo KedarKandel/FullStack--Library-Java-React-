@@ -3,33 +3,34 @@ This is a Library Management System built using React, TypeScript, SCSS, Redux, 
 
 # Technologies Used
 
-- Front-end:
-React: A JavaScript library for building user interfaces.
-TypeScript: A strongly typed superset of JavaScript that compiles to plain JavaScript.
-SCSS: A CSS preprocessor that adds power and elegance to the basic CSS syntax.
-Redux: A predictable state container for managing the application's global state.
-Redux Toolkit: A library that simplifies Redux's boilerplate code and provides a more intuitive API(async thunks)
+* Front-end:
+- React: A JavaScript library for building user interfaces.
+- TypeScript: A strongly typed superset of JavaScript that compiles to plain JavaScript.
+- SCSS: A CSS preprocessor that adds power and elegance to the basic CSS syntax.
+- Redux: A predictable state container for managing the application's global state.
+- Redux Toolkit: A library that simplifies Redux's boilerplate code and provides a more intuitive API(async thunks)
 
-- Back-end:
-Java: A general-purpose programming language that is widely used for enterprise applications.
-Spring Boot: A framework that simplifies the development of Java applications, particularly web-based ones.
-Authentication and Security: Built-in features of Spring Security for managing user authentication and securing the application.
+*  Back-end:
+- Java: A general-purpose programming language that is widely used for enterprise applications.
+- Spring Boot: A framework that simplifies the development of Java applications, particularly web-based ones.
+- Authentication and Security: Built-in features of Spring Security for managing user authentication and securing the application.
 
 # Features
 
-- User Functionality:
+* User Functionality:
 
-Search Books: Users can search for books in the library based on title, author, or other criteria.
-Sort Books: Users can sort the list of books by genres such as novel, science, adventure, fiction, etc.
-Borrow Books: Users can borrow books by signing in and selecting the desired books. A return deadline of 3 weeks is provided.
-Like Books: Users can like their favorite books and view their liked books.
+- Search Books: Users can search for books in the library based on title, author, or other criteria.
+- Sort Books: Users can sort the list of books by genres such as novel, science, adventure, fiction, etc.
+- Borrow Books: Users can borrow books by signing in and selecting the desired books.
+-  Return book: A return deadline of 3 weeks is provided.
 
-- Admin Functionality:
+* Admin Functionality:
 
-Update Books: Admins can update the details of existing books in the library.
-Delete Books: Admins can remove books from the library.
-Add Books: Admins can add new books to the library.
-View Transactions: Admins can view the transaction history of borrower books.
+- Update Books: Admins can update the details of existing books in the library.
+- Delete Books: Admins can remove books from the library.
+- Add Books: Admins can add new books to the library.
+- Add authors, add bookCopies, add categories,..
+- View Transactions: Admins can view the transaction history of borrower books.
 
 * Getting Started
 
