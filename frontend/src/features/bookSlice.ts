@@ -47,6 +47,7 @@ export const deleteBook = createAsyncThunk(
 export const addBook = createAsyncThunk(
   'books/add',
   async (addedObject: Book, { rejectWithValue }) => {
+
     try {
       const res = await api.post(`/book/add`, {
         title: addedObject.title,
@@ -85,7 +86,7 @@ export const updateBook = createAsyncThunk(
         cover: updatedObject.cover
       })
       const updatedBook: Book = await res.data
-     
+
       return {
         updatedBook
       }
@@ -102,7 +103,8 @@ const initialState: BookState = {
   isLoading: false,
   error: null,
   deletedStatus: '',
-  updatedStatus: ''
+  updatedStatus: '',
+  addedStatus:""
 }
 
 const bookSlice = createSlice({
@@ -136,6 +138,9 @@ const bookSlice = createSlice({
     },
     setUpdatedStatus: (state, action: PayloadAction<string | null>) => {
       state.updatedStatus = action.payload
+    },
+    setAddedStatus: (state, action: PayloadAction<string | null>) => {
+      state.addedStatus = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -164,7 +169,7 @@ const bookSlice = createSlice({
       state.isLoading = false
       state.items.push(action.payload.book) // Add the new book to the state
       state.filteredItems.push(action.payload.book) // Add the new book to the filtered items
-      state.updatedStatus = 'Book added successfully'
+      state.addedStatus = 'Book added successfully'
     })
 
     builder.addCase(updateBook.fulfilled, (state, action) => {
@@ -180,6 +185,6 @@ const bookSlice = createSlice({
   }
 })
 
-export const { filterBooks, searchBooks, setDeletedStatus, setUpdatedStatus } = bookSlice.actions
+export const { filterBooks, searchBooks, setDeletedStatus, setUpdatedStatus, setAddedStatus} = bookSlice.actions
 
 export default bookSlice.reducer

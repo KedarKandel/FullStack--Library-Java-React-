@@ -34,6 +34,8 @@ const Filter = ({ category, setCategory }: Props) => {
           <MenuItem value={'drama'}>Drama</MenuItem>
           <MenuItem value={'fiction'}>Fiction</MenuItem>
           <MenuItem value={'history'}>History</MenuItem>
+          <MenuItem value={'adventure'}>Adventure</MenuItem>
+          <MenuItem value={'novel'}>Novel</MenuItem>
           <MenuItem value={'science'}>Science</MenuItem>
         </Select>
       </FormControl>

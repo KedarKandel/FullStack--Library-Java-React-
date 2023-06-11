@@ -59,6 +59,7 @@ export type BookState = {
   error: string | null
   deletedStatus: string|null
   updatedStatus: string|null
+  addedStatus: string|null
 }
 
 export interface BorrowingState {

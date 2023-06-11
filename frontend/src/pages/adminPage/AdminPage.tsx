@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../app/store'
 import { Book, BookCopy } from '../../interfaces/interface'
 import {
+  addBook,
   deleteBook,
   fetchAllBooks,
   filterBooks,
@@ -20,9 +21,9 @@ import TransactionItem from '../../components/transaction/TransactionItem'
 import { fetchAllAuthors } from '../../features/authorSlice'
 import { fetchTransactions } from '../../features/borrowingSlice'
 import { fetchAllCategories } from '../../features/categorySlice'
-import './aa.scss'
-
-
+import './adminPage.scss'
+import AddBookForm from '../../components/addBookForm/AddBookForm'
+import { setAddedStatus } from '../../features/bookSlice'
 
 const AdminPage = () => {
   const books = useSelector((state: RootState) => state.book.filteredItems)
@@ -36,11 +37,13 @@ const AdminPage = () => {
   //show messages for delete, update, ....
   const deletedStatus = useSelector((state: RootState) => state.book.deletedStatus)
   const updatedStatus = useSelector((state: RootState) => state.book.updatedStatus)
+  const addedStatus = useSelector((state: RootState) => state.book.addedStatus)
 
   // states
   const [isOpen, setIsOpen] = useState(false)
   const [showTransactions, setShowTransactions] = useState(false)
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
+  const [isAdd, setIsAdd] = useState(false)
 
   //useEffects
   useEffect(() => {
@@ -99,43 +102,73 @@ const AdminPage = () => {
   const handleSubmitUpdateForm = (book: Book) => {
     if (user && book) {
       dispatch(updateBook(book))
+        .then((action) => {
+          const updatedId = (action.payload as any).updatedBook.id
+          if (updatedId === selectedBook?.id) {
+            // Book deleted successfully, show success message
+            dispatch(setUpdatedStatus('Book updated successfully'))
+            setTimeout(() => {
+              // Clear the success message after a certain duration (e.g., 3 seconds)
+              dispatch(setUpdatedStatus(''))
+            }, 3000)
+          } else {
+            // Book deletion failed or other error occurred
+            dispatch(setUpdatedStatus('Book update failed'))
+            setTimeout(() => {
+              // Clear the success message after a certain duration (e.g., 3 seconds)
+              dispatch(setUpdatedStatus(''))
+            }, 3000)
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+      setSelectedBook(null)
+      setIsOpen(false)
+    }
+  }
+  // add a book
+  const handleAddBook = (book: Book) => {
+    dispatch(addBook(book))
       .then((action) => {
-        const updatedId = (action.payload as any).updatedBook.id
-        if (updatedId === selectedBook?.id) {
-          // Book deleted successfully, show success message
-          dispatch(setUpdatedStatus("Book updated successfully"))
-          setTimeout(() => {
-            // Clear the success message after a certain duration (e.g., 3 seconds)
-            dispatch(setUpdatedStatus(''))
-          }, 3000)
+        setIsAdd(false)
+        const payload = action.payload
+        if (typeof payload === 'object' && payload !== null && 'book' in payload) {
+          const addedBook: Book = (payload as { book: Book }).book
+          console.log(addedBook)
+          if (addedBook && addedBook.id) {
+            // Book added successfully, show success message
+            dispatch(setAddedStatus('Book added successfully'))
+            setTimeout(() => {
+              // Clear the success message after a certain duration (e.g., 3 seconds)
+              dispatch(setAddedStatus(''))
+            }, 3000)
+          } else {
+            // Book addition failed or other error occurred
+            dispatch(setAddedStatus('Failed to add book to the database'))
+            setTimeout(() => {
+              // Clear the error message after a certain duration (e.g., 3 seconds)
+              dispatch(setAddedStatus(''))
+            }, 3000)
+          }
         } else {
-          // Book deletion failed or other error occurred
-          dispatch(setUpdatedStatus('Book update failed'))
-          setTimeout(() => {
-            // Clear the success message after a certain duration (e.g., 3 seconds)
-            dispatch(setUpdatedStatus(''))
-          }, 3000)
+          // Payload does not have the expected structure
+          console.error('Invalid payload structure')
         }
       })
       .catch((error) => {
         console.log(error)
       })
-  
-      setSelectedBook(null);
-      setIsOpen(false);
-    }
-  };
-  
-  
-  
+  }
 
   return (
     <div className="adminpage__container">
       <div className="left__side">
         <h1>Admin</h1>
-
         <div className="adminFunctions">
-          <button onClick={() => setShowTransactions(false)}>Add book</button>
+          {isAdd && <AddBookForm onSubmit={handleAddBook} setIsAdd={setIsAdd} />}
+          <button onClick={() => setIsAdd(true)}>Add book</button>
           <button>Add Author</button>
           <button onClick={getAllTransactions}>View transactions</button>
         </div>
@@ -156,8 +189,9 @@ const AdminPage = () => {
           <Filter category={category} setCategory={setCategory} />
         </div>
 
-        {deletedStatus && <p style={{ color: 'crimson' }}>{deletedStatus}</p>}
-        {updatedStatus && <p style={{ color: 'crimson' }}>{updatedStatus}</p>}
+        {updatedStatus && <p className="status-message">{updatedStatus}</p>}
+        {addedStatus && <p className="status-message">{addedStatus}</p>}
+        {deletedStatus && <p className="status-message deleted-status">{deletedStatus}</p>}
 
         <div className="item__container">
           {showTransactions ? (

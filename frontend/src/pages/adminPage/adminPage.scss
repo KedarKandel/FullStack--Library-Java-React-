@@ -1,68 +1,175 @@
-// HomePage.scss
 .adminpage__container {
-  width: 100vw;
   display: flex;
-  padding: 20px;
-  
+  gap: 20px;
+  padding: 5% 0;
+  margin-bottom: 10%;
+
+  @media (max-width: 767px) {
+    display: block;
+  }
+
   .left__side {
-    width: 30%;
+    padding: 20px;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 80vh;
-    .left__side h1 {
-      margin-bottom: 40px;
+
+    @media (max-width: 767px) {
+      display: block;
+      justify-content: center;
+      align-items: center;
     }
 
-    .adminFunctions{
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      button{
-        width: max-content;
-        outline: none;
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .adminFunctions {
+      margin-bottom: 20px;
+
+      @media (max-width: 767px) {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 20px;
+      }
+
+      button {
+        margin: 5px;
+        padding: 8px 16px;
+        font-size: 14px;
+        background-color: #4caf50;
+        color: white;
         border: none;
-        border-radius: 5px;
-        color: #fff;
-        background-color: teal;
-        padding: 5px 8px;
         cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #45a049;
+        }
       }
     }
+
     .author__container {
-      align-self: baseline;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      padding: 10px;
-      margin-bottom: 20px;
-      gap: 5px;
-      height: 40vh;
-      margin-top: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
       h3 {
-        text-align: left;
+        font-size: 18px;
         margin-bottom: 10px;
       }
+
       .authors {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        
+        display: grid;
+        gap: 10px;
+
+        // Style for AuthorItem component
+        .author {
+          padding: 10px;
+          background-color: #f9f9f9;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+
+          img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+          }
+        }
       }
     }
   }
 
   .right__side {
-    width: 70%;
+    flex: 3;
+
     .option__container {
       display: flex;
+      align-items: center;
       justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+      @media (max-width:350px) {
+        flex-direction: column;
+      }
     }
-    .item__container {
+    .status-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      background-color: rgb(23, 12, 59);
+      padding: 10px 15px;
+      color: #fff;
+      font-size: 20px;
+    }
+
+    .deleted-status {
+      padding: 10px 15px;
+      font-size: 20px;
+      background-color: white;
+      color: crimson;
+    }
+
+
+    .adminBookContainer {
+      padding: 1rem;
       display: flex;
       flex-wrap: wrap;
-      border: 1px solid grey;
-      padding: 5px;
+      @media (max-width: 557px) {
+        width: 100vw;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+      }
+    }
+
+
+
+    .transactionContainer {
+      padding: 1rem;
+      button {
+        color: white;
+        background-color: red;
+        align-self: right;
+        padding: 8px 16px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #e53935;
+        }
+      }
+
+      h3 {
+        font-size: 18px;
+        align-self: center;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th,
+        td {
+          padding: 8px;
+          border-bottom: 1px solid #ddd;
+        }
+
+        th {
+          background-color: #f2f2f2;
+          font-weight: bold;
+        }
+
+        td {
+          text-align: center;
+        }
+      }
     }
   }
 }
