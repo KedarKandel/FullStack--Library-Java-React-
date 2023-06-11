@@ -1,7 +1,7 @@
 # Library Management System
 This is a Library Management System built using React, TypeScript, SCSS, Redux, Redux Toolkit, Java, Spring Boot, and authentication and security features. The system allows users to search for books, sort them by genres such as novel, science, adventure, fiction, etc. The admin has additional functionalities like updating books, deleting books, adding books, and viewing transaction history of borrowed books. The system also includes a borrowing feature with a return deadline of 3 weeks, as well as a like feature for books.
 
-* Technologies Used
+# Technologies Used
 
 - Front-end:
 React: A JavaScript library for building user interfaces.
@@ -15,7 +15,7 @@ Java: A general-purpose programming language that is widely used for enterprise 
 Spring Boot: A framework that simplifies the development of Java applications, particularly web-based ones.
 Authentication and Security: Built-in features of Spring Security for managing user authentication and securing the application.
 
-* Features
+# Features
 
 - User Functionality:
 
@@ -32,15 +32,16 @@ Add Books: Admins can add new books to the library.
 View Transactions: Admins can view the transaction history of borrower books.
 
 * Getting Started
-To get started with the Library Management System, follow these steps:
 
-Clone the repository to your local machine.
-Set up the front-end:
-Navigate to the front-end directory.
-Install the dependencies using npm install.
-Start the development server using npm start.
-Set up the back-end:
-Navigate to the back-end directory.
-Configure the database connection and other necessary configurations in the application.properties file.
-Build and run the Spring Boot application.
-Access the application in your browser at http://localhost:3000 (or a different port if specified).
+- To get started with the Library Management System, follow these steps:
+
+1. Clone the repository to your local machine.
+- Set up the front-end:
+- Navigate to the front-end directory.
+- Install the dependencies using npm install.
+- Start the development server using npm start.
+2. Set up the back-end:
+- Navigate to the back-end directory.
+- -Configure the database connection and other necessary configurations in the application.properties file.
+- Build and run the Spring Boot application.
+- Access the application in your browser at http://localhost:3000 (or a different port if specified).
