@@ -45,9 +45,15 @@ public class AuthorServiceImpl implements AuthorService {
         return null;
     }
 
+
     @Override
-    public void deleteAuthor(UUID authorId) {
+    public UUID deleteAuthor(UUID authorId) {
         Optional<Author> authorOptional = authorRepository.findById(authorId);
-        authorOptional.ifPresent(author -> authorRepository.delete(author));
+        if (authorOptional.isPresent()) {
+            Author deletedAuthor = authorOptional.get();
+            authorRepository.delete(deletedAuthor);
+            return deletedAuthor.getId();
+        }
+        return null; // Author not found or deletion failed
     }
 }

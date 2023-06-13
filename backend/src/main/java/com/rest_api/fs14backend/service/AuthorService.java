@@ -10,5 +10,5 @@ public interface AuthorService {
     Author getAuthorById(UUID authorId);
     List<Author> getAllAuthors();
     Author updateAuthor(UUID id, Author author);
-    void deleteAuthor(UUID authorId);
+    public UUID deleteAuthor(UUID authorId);
 }

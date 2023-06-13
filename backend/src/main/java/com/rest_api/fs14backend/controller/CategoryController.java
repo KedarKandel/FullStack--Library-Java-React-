@@ -3,6 +3,7 @@ package com.rest_api.fs14backend.controller;
 import com.rest_api.fs14backend.entity.Category;
 import com.rest_api.fs14backend.serviceImpl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,28 +17,33 @@ public class CategoryController {
     private CategoryServiceImpl categoryService;
 
     @GetMapping("/all")
-    public List<Category> findAll(){
-        return categoryService.findAll();
+    public ResponseEntity<List<Category>> findAll(){
+        List<Category> categories = categoryService.findAll();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public Category updateOne(@PathVariable UUID id ,@RequestBody Category updatedCategory) {
-        return categoryService.updateOne(id,updatedCategory);
+    public ResponseEntity<Category> updateOne(@PathVariable UUID id, @RequestBody Category updatedCategory) {
+        Category category = categoryService.updateOne(id, updatedCategory);
+        return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public Category addOne(@RequestBody Category newCategory) {
-        return categoryService.addOne(newCategory);
+    public ResponseEntity<Category> addOne(@RequestBody Category newCategory) {
+        Category category = categoryService.addOne(newCategory);
+        return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{categoryId}")
-    public ResponseEntity<?> deleteCategory(@PathVariable UUID categoryId) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable UUID categoryId) {
         categoryService.deleteOne(categoryId);
         return ResponseEntity.noContent().build();
     }
+
     @GetMapping("/{categoryId}")
-    public Category findById(@PathVariable UUID categoryId) {
-        return categoryService.findCategoryById(categoryId);
+    public ResponseEntity<Category> findById(@PathVariable UUID categoryId) {
+        Category category = categoryService.findCategoryById(categoryId);
+        return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
 }

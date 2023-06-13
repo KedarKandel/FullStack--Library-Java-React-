@@ -1,5 +1,5 @@
 import { Book } from '../../interfaces/interface'
-import './adminbookItem.scss'
+import './adminBookItem.scss'
 
 type Props = {
   book: Book

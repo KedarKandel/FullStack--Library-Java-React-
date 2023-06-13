@@ -16,8 +16,9 @@ public class AuthorController {
     @Autowired
     private AuthorService authorService;
     @PostMapping("/add")
-    public Author createAuthor(@RequestBody Author author) {
-        return authorService.createAuthor(author);
+    public ResponseEntity<Author> createAuthor(@RequestBody Author author) {
+        Author createdAuthor = authorService.createAuthor(author);
+        return new ResponseEntity<>(createdAuthor, HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
@@ -26,17 +27,31 @@ public class AuthorController {
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public void getAuthorById(@PathVariable UUID authorId) {
-        Author author = authorService.getAuthorById(authorId);
+    public ResponseEntity<Author> getAuthorById(@PathVariable UUID id) {
+        Author author = authorService.getAuthorById(id);
+        if (author != null) {
+            return new ResponseEntity<>(author, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
     @PutMapping("/update/{id}")
-    public Author updateAuthor(@PathVariable UUID id, @RequestBody Author author){
-        return authorService.updateAuthor(id,author);
+    public ResponseEntity<Author> updateAuthor(@PathVariable UUID id, @RequestBody Author author) {
+        Author updatedAuthor = authorService.updateAuthor(id, author);
+        if (updatedAuthor != null) {
+            return new ResponseEntity<>(updatedAuthor, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-
     @DeleteMapping("/delete/{authorId}")
-    public void deleteAuthor(@PathVariable UUID authorId) {
-        authorService.deleteAuthor(authorId);
+    public ResponseEntity<UUID> deleteAuthor(@PathVariable UUID authorId) {
+        UUID deletedAuthorId = authorService.deleteAuthor(authorId);
+        if (deletedAuthorId != null) {
+            return new ResponseEntity<>(deletedAuthorId, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

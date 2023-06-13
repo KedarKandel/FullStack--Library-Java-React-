@@ -1,6 +1,8 @@
 package com.rest_api.fs14backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,36 +21,51 @@ public class BookCopyController {
     BookCopyService bookCopyService;
     @Autowired
     BookService bookService;
+
     @GetMapping("/all")
-    public List<BookCopy> findAll(){
-        return bookCopyService.getAll();
+    public ResponseEntity<List<BookCopy>> findAll() {
+        List<BookCopy> bookCopies = bookCopyService.getAll();
+        return new ResponseEntity<>(bookCopies, HttpStatus.OK);
     }
+
     @PostMapping("/add")
-    public List<BookCopy> addCopies(@RequestBody BookCopyDto bookCopyDto){
-        return bookCopyService.addCopies(bookCopyDto);
+    public ResponseEntity<List<BookCopy>> addCopies(@RequestBody BookCopyDto bookCopyDto) {
+        List<BookCopy> bookCopies = bookCopyService.addCopies(bookCopyDto);
+        return new ResponseEntity<>(bookCopies, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/delete/{id}")
-    public void deleteOne(@PathVariable UUID id){
+    public void deleteOne(@PathVariable UUID id) {
         bookCopyService.deleteOne(id);
     }
+
     @PutMapping("/update/{id}")
-    public BookCopy updateOne(@PathVariable UUID id,@RequestBody BookCopyDto bookCopyDto){
-        return bookCopyService.updateOne(id, bookCopyDto);
+    public ResponseEntity<BookCopy> updateOne(@PathVariable UUID id, @RequestBody BookCopyDto bookCopyDto) {
+        BookCopy updatedBookCopy = bookCopyService.updateOne(id, bookCopyDto);
+        return new ResponseEntity<>(updatedBookCopy, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
-    public List<BookCopy> findAllByBookId(@PathVariable UUID id){
-        return bookCopyService.findAllByBookId(id);
+    public ResponseEntity<List<BookCopy>> findAllByBookId(@PathVariable UUID id) {
+        List<BookCopy> bookCopies = bookCopyService.findAllByBookId(id);
+        return new ResponseEntity<>(bookCopies, HttpStatus.OK);
     }
+
     @GetMapping("/countAll/{id}")
-    public int countAllByBookId(@PathVariable UUID id){
-        return bookCopyService.countAllByBookId(id);
+    public ResponseEntity<Integer> countAllByBookId(@PathVariable UUID id) {
+        int count = bookCopyService.countAllByBookId(id);
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
+
     @GetMapping("/available/{id}")
-    public List<BookCopy> findAvailableByBookId(@PathVariable UUID id){
-        return bookCopyService.findAvailableByBookId(id);
+    public ResponseEntity<List<BookCopy>> findAvailableByBookId(@PathVariable UUID id) {
+        List<BookCopy> availableCopies = bookCopyService.findAvailableByBookId(id);
+        return new ResponseEntity<>(availableCopies, HttpStatus.OK);
     }
+
     @GetMapping("/countAvailable/{id}")
-    public int countAvailableByBookId(@PathVariable UUID id){
-        return bookCopyService.countAvailableByBookId(id);
+    public ResponseEntity<Integer> countAvailableByBookId(@PathVariable UUID id) {
+        int count = bookCopyService.countAvailableByBookId(id);
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 }
