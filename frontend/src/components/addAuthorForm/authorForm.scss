@@ -1,0 +1,25 @@
+.addAuthorForm{
+    padding: 15px;
+    background-color: #dcd3d3;
+   h1{
+    font-size: 25px;
+    color: teal;
+    padding: 5px;
+   }
+   form{
+    display: flex;
+    flex-direction: column;
+    input{
+        padding: 5px 10px;
+        margin-bottom: 5px;
+    }
+    button{
+        color: #fff;
+        width: max-content;
+        background-color: teal;
+        border: none;
+        padding: 3px 6px;
+        cursor: pointer;
+    }
+   }
+}

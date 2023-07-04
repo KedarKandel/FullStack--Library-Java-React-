@@ -24,6 +24,7 @@ import { fetchAllCategories } from '../../features/categorySlice'
 import './adminPage.scss'
 import AddBookForm from '../../components/addBookForm/AddBookForm'
 import { setAddedStatus } from '../../features/bookSlice'
+import AddAuthorForm from '../../components/addAuthorForm/AddAuthorForm'
 
 const AdminPage = () => {
   const books = useSelector((state: RootState) => state.book.filteredItems)
@@ -181,6 +182,7 @@ const AdminPage = () => {
             ))}
           </div>
         </div>
+        <AddAuthorForm/>
       </div>
 
       <div className="right__side">
